@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Teleprompter</title>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			body {
+				margin: 0;
+				background: rgba(
+					255,
+					255,
+					255,
+					0.015
+				); /* Semi-transparent background */
+				overflow: hidden;
+				font-size: 24px;
+				color: rgb(255, 255, 255); /* Make body text transparent */
+				font-family: "Roboto", Helvetica, sans-serif; /* More readable font */
+			}
+			#teleprompter {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				width: 100%; /* Full width */
+				text-align: center; /* Center the text */
+				white-space: nowrap;
+				color: rgb(255, 255, 255); /* Solid color for teleprompter text */
+				font-weight: bold; /* Increase font weight for better visibility */
+			}
+		</style>
+	</head>
+	<body>
+		<div id="teleprompter">This is a sample text for the teleprompter.</div>
+		<script>
+			const teleprompter = document.getElementById("teleprompter");
+			let position = 50; // Initial position in percentage
+			let fontSize = 24; // Initial font size in pixels
+			let isBlack = false; // Initial text color state
+			let scrolling = false; // Initial scrolling state
+			let scrollInterval; // Interval ID for scrolling
+
+			function updatePosition() {
+				teleprompter.style.top = `${position}%`;
+			}
+
+			function updateFontSize() {
+				teleprompter.style.fontSize = `${fontSize}px`;
+			}
+
+			function toggleTextColor() {
+				if (isBlack) {
+					teleprompter.style.color = "rgb(255, 255, 255)"; // Change to white
+				} else {
+					teleprompter.style.color = "rgb(139, 0, 0)"; // Change to darker red
+				}
+				isBlack = !isBlack;
+			}
+
+			function startScrolling() {
+				scrolling = true;
+				scrollInterval = setInterval(() => {
+					position += -0.1; // Adjust the speed as needed
+					updatePosition();
+				}, 16); // Approximately 60 frames per second
+			}
+
+			function stopScrolling() {
+				scrolling = false;
+				clearInterval(scrollInterval);
+			}
+
+			document.addEventListener("keydown", (event) => {
+				if (event.key === "ArrowUp" && event.ctrlKey) {
+					position -= 10; // Move up faster
+				} else if (event.key === "ArrowDown" && event.ctrlKey) {
+					position += 10; // Move down faster
+				} else if (event.key === "ArrowUp") {
+					position -= 0.5; // Move up
+				} else if (event.key === "ArrowDown") {
+					position += 0.5; // Move down
+				} else if (event.key === "ArrowRight") {
+					fontSize += 1; // Increase font size
+				} else if (event.key === "ArrowLeft") {
+					fontSize -= 1; // Decrease font size
+				} else if (event.key === "F10") {
+					toggleTextColor(); // Toggle text color
+				} else if (event.key === " ") {
+					if (scrolling) {
+						stopScrolling();
+					} else {
+						startScrolling();
+					}
+				} else if (event.key === "PageUp") {
+					position = 0; // Move to the top of the document
+				} else if (event.key === "PageDown") {
+					position = 100; // Move to the bottom of the document
+				}
+				updatePosition();
+				updateFontSize();
+			});
+
+			updatePosition();
+			updateFontSize();
+		</script>
+	</body>
+</html>
