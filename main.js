@@ -1,4 +1,3 @@
-// main.js
 const { app, BrowserWindow, screen, Tray, Menu, globalShortcut } = require('electron');
 const path = require('path');
 
@@ -6,18 +5,15 @@ let tray = null;
 let win = null;
 
 function createWindow() {
-    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+    const { height } = screen.getPrimaryDisplay().workAreaSize;
 
     win = new BrowserWindow({
-        width: width, // Full width
+        width: 800, // Full width
         height: height, // Full height
         transparent: true,
         frame: false,
         alwaysOnTop: true,
         skipTaskbar: true, // Do not show in taskbar
-        webPreferences: {
-            preload: path.join(app.getAppPath(), 'preload.js')
-        }
     });
 
     win.loadFile(path.join(app.getAppPath(), 'index.html'));
@@ -66,12 +62,24 @@ app.whenReady().then(() => {
     tray.setContextMenu(contextMenu);
 
     globalShortcut.register('F8', () => {
-        win.show();
+        if (win.isVisible()) {
+            win.hide();
+        } else {
+            win.show();
+        }
     });
 
     globalShortcut.register('F9', () => {
         app.isQuiting = true;
         app.quit();
+    });
+
+    globalShortcut.register('Alt+Left', () => {
+        win.webContents.executeJavaScript('switchTeleprompter()');
+    });
+
+    globalShortcut.register('Alt+Right', () => {
+        win.webContents.executeJavaScript('switchTeleprompter()');
     });
 
     app.on('activate', () => {
