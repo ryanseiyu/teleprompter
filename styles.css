@@ -1,0 +1,26 @@
+body {
+    margin: 0;
+    background: rgba(255, 255, 255, 0);
+    /* Semi-transparent background */
+    overflow: hidden;
+    font-size: 24px;
+    color: rgb(255, 255, 255);
+    /* Make body text transparent */
+    font-family: "Roboto", Helvetica, sans-serif;
+    /* More readable font */
+}
+
+.teleprompter {
+    position: absolute;
+    transform: translate(0%, 0%);
+    width: 100%;
+    /* Full width */
+    text-align: center;
+    /* Center the text */
+    color: rgb(255, 255, 255);
+    /* Solid color for teleprompter text */
+    font-weight: bold;
+    /* Increase font weight for better visibility */
+    word-wrap: break-word;
+    /* Ensure words break to the next line */
+}

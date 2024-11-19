@@ -75,11 +75,11 @@ app.whenReady().then(() => {
     });
 
     globalShortcut.register('Alt+Left', () => {
-        win.webContents.executeJavaScript('switchTeleprompter()');
+        win.webContents.executeJavaScript('switchTeleprompter("prev")');
     });
 
     globalShortcut.register('Alt+Right', () => {
-        win.webContents.executeJavaScript('switchTeleprompter()');
+        win.webContents.executeJavaScript('switchTeleprompter("next")');
     });
 
     app.on('activate', () => {
