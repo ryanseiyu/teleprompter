@@ -1,15 +1,17 @@
-let currentTeleprompter = "teleprompter1.html";
-let position = 0; // Initial position at the top
+let currentTeleprompter = "index.html";
 let fontSize = 24; // Initial font size in pixels
 let isBlack = false; // Initial text color state
-let scrolling = false; // Initial scrolling state
-let scrollInterval; // Interval ID for scrolling
+
 const teleprompters = [
+    "index.html",
     "teleprompter1.html",
     "teleprompter2.html",
     "teleprompter3.html",
 ];
 const teleprompterContent = {};
+
+const startAudioButton = document.getElementById('start-audio');
+const stopAudioButton = document.getElementById('stop-audio');
 
 function loadTeleprompter(file) {
     fetch(file)
@@ -73,3 +75,5 @@ document.addEventListener("keydown", (event) => {
 
 // Load all teleprompter content initially
 teleprompters.forEach(loadTeleprompter);
+
+
