@@ -2,25 +2,42 @@ body {
     margin: 0;
     background: rgba(255, 255, 255, 0);
     /* Semi-transparent background */
-    overflow: hidden;
     font-size: 24px;
-    color: rgb(255, 255, 255);
+    color: rgb(89, 89, 89);
     /* Make body text transparent */
     font-family: "Roboto", Helvetica, sans-serif;
     /* More readable font */
 }
 
 .teleprompter {
-    position: absolute;
-    transform: translate(0%, 0%);
+    position: relative;
     width: 100%;
     /* Full width */
     text-align: center;
     /* Center the text */
-    color: rgb(255, 255, 255);
+    color: rgb(180, 26, 26);
     /* Solid color for teleprompter text */
     font-weight: bold;
     /* Increase font weight for better visibility */
     word-wrap: break-word;
     /* Ensure words break to the next line */
+}
+
+#transcriber {
+    background-color: red;
+    height: 10%;
+    width: 100%;
+}
+
+/* Hide scrollbar for all elements */
+* {
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+}
+
+*::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
 }

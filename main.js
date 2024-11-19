@@ -1,19 +1,24 @@
-const { app, BrowserWindow, screen, Tray, Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, screen, Tray, Menu, globalShortcut, ipcMain } = require('electron');
 const path = require('path');
 
 let tray = null;
 let win = null;
+let secondWin = null;
 
 function createWindow() {
     const { height } = screen.getPrimaryDisplay().workAreaSize;
 
     win = new BrowserWindow({
         width: 800, // Full width
-        height: height, // Full height
+        height: 0.9 * height, // Full height
         transparent: true,
-        frame: false,
+        frame: true,
         alwaysOnTop: true,
         skipTaskbar: true, // Do not show in taskbar
+        webPreferences: {
+            nodeIntegration: true, // Enable node integration
+            contextIsolation: false // Disable context isolation
+        }
     });
 
     win.loadFile(path.join(app.getAppPath(), 'index.html'));
@@ -29,6 +34,33 @@ function createWindow() {
             win.hide();
         }
         return false;
+    });
+
+    createSecondWindow();
+
+    // Focus on the first window
+    win.focus();
+}
+
+function createSecondWindow() {
+    const [winX, winY] = win.getPosition();
+    const [winWidth] = win.getSize();
+
+    secondWin = new BrowserWindow({
+        width: 400,
+        height: 300,
+        webPreferences: {
+            nodeIntegration: true,
+            contextIsolation: false
+        }
+    });
+
+    secondWin.loadFile(path.join(app.getAppPath(), 'index.html'));
+
+    secondWin.setPosition(winX + winWidth, winY);
+
+    secondWin.on('close', () => {
+        secondWin = null;
     });
 }
 
@@ -47,6 +79,16 @@ app.whenReady().then(() => {
             label: 'Hide',
             click: () => {
                 win.hide();
+            }
+        },
+        {
+            label: 'Open Second Window',
+            click: () => {
+                if (!secondWin) {
+                    createSecondWindow();
+                } else {
+                    secondWin.show();
+                }
             }
         },
         {
@@ -72,14 +114,6 @@ app.whenReady().then(() => {
     globalShortcut.register('F9', () => {
         app.isQuiting = true;
         app.quit();
-    });
-
-    globalShortcut.register('Alt+Left', () => {
-        win.webContents.executeJavaScript('switchTeleprompter("prev")');
-    });
-
-    globalShortcut.register('Alt+Right', () => {
-        win.webContents.executeJavaScript('switchTeleprompter("next")');
     });
 
     app.on('activate', () => {

@@ -18,7 +18,6 @@ function loadTeleprompter(file) {
             teleprompterContent[file] = data;
             if (file === currentTeleprompter) {
                 document.getElementById("teleprompter-container").innerHTML = data;
-                updatePosition();
                 updateFontSize();
             }
         });
@@ -35,15 +34,7 @@ function switchTeleprompter(direction) {
         currentTeleprompter = teleprompters[prevIndex];
     }
     document.getElementById("teleprompter-container").innerHTML = teleprompterContent[currentTeleprompter];
-    updatePosition();
     updateFontSize();
-}
-
-function updatePosition() {
-    const teleprompter = document.querySelector(".teleprompter");
-    if (teleprompter) {
-        teleprompter.style.top = `${position}%`;
-    }
 }
 
 function updateFontSize() {
@@ -65,47 +56,19 @@ function toggleTextColor() {
     }
 }
 
-function startScrolling() {
-    scrolling = true;
-    scrollInterval = setInterval(() => {
-        position += -0.1; // Adjust the speed as needed
-        updatePosition();
-    }, 16); // Approximately 60 frames per second
-}
-
-function stopScrolling() {
-    scrolling = false;
-    clearInterval(scrollInterval);
-}
 
 document.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowUp" && event.ctrlKey) {
-        position -= 10; // Move up faster
-    } else if (event.key === "ArrowDown" && event.ctrlKey) {
-        position += 10; // Move down faster
-    } else if (event.key === "ArrowUp") {
-        position -= 0.5; // Move up
-    } else if (event.key === "ArrowDown") {
-        position += 0.5; // Move down
-    } else if (event.key === "ArrowRight") {
+    if (event.key === "ArrowRight" && !event.altKey) {
         fontSize += 1; // Increase font size
-    } else if (event.key === "ArrowLeft") {
+    } else if (event.key === "ArrowLeft" && !event.altKey) {
         fontSize -= 1; // Decrease font size
     } else if (event.key === "F10") {
         toggleTextColor(); // Toggle text color
-    } else if (event.key === " ") {
-        if (scrolling) {
-            stopScrolling();
-        } else {
-            startScrolling();
-        }
-    } else if (event.key === "PageUp") {
-        position = 0; // Move to the top of the document
-    } else if (event.key === "PageDown") {
-        position = 100; // Move to the bottom of the document
-    }
-    updatePosition();
-    updateFontSize();
+    } else if (event.altKey && event.key === 'ArrowLeft') {
+        switchTeleprompter("prev");
+    } else if (event.altKey && event.key === 'ArrowRight') {
+        switchTeleprompter("next");
+    } updateFontSize();
 });
 
 // Load all teleprompter content initially
