@@ -10,8 +10,22 @@ const teleprompters = [
 ];
 const teleprompterContent = {};
 
+// Start recognition when the button is clicked
 const startAudioButton = document.getElementById('start-audio');
+startAudioButton.addEventListener('click', () => {
+    const utterance = new SpeechSynthesisUtterance('Hello, world!');
+    utterance.lang = 'en-US';
+    utterance.pitch = 1;
+    utterance.rate = 1;
+    utterance.volume = 1;
+    window.speechSynthesis.speak(utterance);
+});
+
+// Stop recognition when the button is clicked
 const stopAudioButton = document.getElementById('stop-audio');
+stopAudioButton.addEventListener('click', () => {
+    recognition.stop();
+});
 
 function loadTeleprompter(file) {
     fetch(file)
