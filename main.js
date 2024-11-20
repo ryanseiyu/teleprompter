@@ -1,10 +1,16 @@
 const { app, BrowserWindow, Tray, Menu, globalShortcut } = require('electron');
 const path = require('path');
 const { createMainWindow, createSecondWindow } = require('./windows');
-
+const Microphone = require('node-microphone');
+const fs = require('fs');
 
 let tray = null;
 let win = null;
+
+// Initialize the microphone
+const mic = new Microphone();
+let micStream;
+let writeStream;
 
 app.whenReady().then(() => {
     createMainWindow();
@@ -44,6 +50,20 @@ app.whenReady().then(() => {
 
     tray.setToolTip('Teleprompter');
     tray.setContextMenu(contextMenu);
+
+    globalShortcut.register('F7', () => {
+        if (!micStream) {
+            micStream = mic.startRecording();
+            writeStream = fs.createWriteStream('output.wav');
+            micStream.pipe(writeStream);
+            console.log('Recording started');
+        } else {
+            mic.stopRecording();
+            micStream = null;
+            writeStream.end();
+            console.log('Recording stopped and saved to output.wav');
+        }
+    });
 
     globalShortcut.register('F8', () => {
         if (win.isVisible()) {

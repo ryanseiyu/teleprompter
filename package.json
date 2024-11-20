@@ -14,5 +14,7 @@
     "electron": "^25.0.0",
     "electron-packager": "^17.1.1"
   },
-  "dependencies": {}
+  "dependencies": {
+    "node-microphone": "^0.1.6"
+  }
 }
