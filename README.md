@@ -69,3 +69,11 @@ To package the application for Windows:
 ```sh
 npm run package
 ```
+
+## Patch Notes
+
+1.9 Added README.md
+
+## Future Path Notes
+
+1.10 Add model to read wav file
