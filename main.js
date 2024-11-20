@@ -1,11 +1,10 @@
 const { app, BrowserWindow, Tray, Menu, globalShortcut } = require('electron');
 const path = require('path');
-const { createMainWindow, createSecondWindow } = require('./windows');
+const { createMainWindow, createSecondWindow, getMainWindow, getSecondWindow } = require('./windows');
 const Microphone = require('node-microphone');
 const fs = require('fs');
 
 let tray = null;
-let win = null;
 
 // Initialize the microphone
 const mic = new Microphone();
@@ -14,6 +13,8 @@ let writeStream;
 
 app.whenReady().then(() => {
     createMainWindow();
+    const win = getMainWindow();
+    const secondWin = getSecondWindow();
 
     tray = new Tray(path.join(app.getAppPath(), 'icon.png')); // Path to your tray icon
     const contextMenu = Menu.buildFromTemplate([
@@ -68,8 +69,14 @@ app.whenReady().then(() => {
     globalShortcut.register('F8', () => {
         if (win.isVisible()) {
             win.hide();
+            if (secondWin && secondWin.isVisible()) {
+                secondWin.hide();
+            }
         } else {
             win.show();
+            if (secondWin) {
+                secondWin.show();
+            }
         }
     });
 

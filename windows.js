@@ -1,8 +1,8 @@
 const { BrowserWindow, screen, app } = require('electron');
 const path = require('path');
 
-let win = null;
-let secondWin = null;
+let win;
+let secondWin;
 
 function createMainWindow() {
     const { height } = screen.getPrimaryDisplay().workAreaSize;
@@ -62,4 +62,12 @@ function createSecondWindow() {
     });
 }
 
-module.exports = { createMainWindow, createSecondWindow };
+function getMainWindow() {
+    return win;
+}
+
+function getSecondWindow() {
+    return secondWin;
+}
+
+module.exports = { createMainWindow, createSecondWindow, getMainWindow, getSecondWindow };
