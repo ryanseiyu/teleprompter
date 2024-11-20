@@ -3,6 +3,7 @@ const path = require('path');
 const { createMainWindow, createSecondWindow, getMainWindow, getSecondWindow } = require('./windows');
 const Microphone = require('node-microphone');
 const fs = require('fs');
+require('dotenv').config(); // Load environment variables
 
 let tray = null;
 
@@ -46,8 +47,37 @@ app.whenReady().then(() => {
                 app.isQuiting = true;
                 app.quit();
             }
+        },
+        {
+            label: 'Transcribe Audio',
+            click: async () => {
+                try {
+                    const transcription = await query('jfk.wav');
+                    console.log(transcription);
+                } catch (error) {
+                    console.error('Error transcribing audio:', error);
+                }
+            }
         }
     ]);
+
+    async function query(filename) {
+        const data = fs.readFileSync(filename);
+        const fetch = (await import('node-fetch')).default;
+        const response = await fetch(
+            "https://api-inference.huggingface.co/models/openai/whisper-large-v3",
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.HUGGING_FACE_API_KEY}`,
+                    "Content-Type": "application/json",
+                },
+                method: "POST",
+                body: data,
+            }
+        );
+        const result = await response.json();
+        return result;
+    }
 
     tray.setToolTip('Teleprompter');
     tray.setContextMenu(contextMenu);

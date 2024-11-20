@@ -72,8 +72,10 @@ npm run package
 
 ## Patch Notes
 
+1.10 Developed the transcribe feature using openai/whisper-large-v3 (https://huggingface.co/openai/whisper-large-v3)
 1.9 Added README.md
 
 ## Future Path Notes
 
+1.11 To transcribe in real time
 1.10 Add model to read wav file
