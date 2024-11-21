@@ -15,18 +15,12 @@ body {
     /* Full width */
     text-align: center;
     /* Center the text */
-    color: rgb(180, 26, 26);
+    color: rgb(255, 255, 255);
     /* Solid color for teleprompter text */
     font-weight: bold;
     /* Increase font weight for better visibility */
     word-wrap: break-word;
     /* Ensure words break to the next line */
-}
-
-#transcriber {
-    background-color: red;
-    height: 10%;
-    width: 100%;
 }
 
 /* Hide scrollbar for all elements */

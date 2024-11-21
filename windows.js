@@ -8,10 +8,10 @@ function createMainWindow() {
     const { height } = screen.getPrimaryDisplay().workAreaSize;
 
     win = new BrowserWindow({
-        width: 800,
+        width: 600,
         height: height,
         transparent: true,
-        frame: true,
+        frame: false,
         alwaysOnTop: true,
         skipTaskbar: true,
         webPreferences: {

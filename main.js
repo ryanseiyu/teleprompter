@@ -52,7 +52,7 @@ app.whenReady().then(() => {
             label: 'Transcribe Audio',
             click: async () => {
                 try {
-                    const transcription = await query('jfk.wav');
+                    const transcription = await query('output.wav');
                     console.log(transcription);
                 } catch (error) {
                     console.error('Error transcribing audio:', error);
@@ -99,14 +99,15 @@ app.whenReady().then(() => {
     globalShortcut.register('F8', () => {
         if (win.isVisible()) {
             win.hide();
-            if (secondWin && secondWin.isVisible()) {
+            if (secondWin && !secondWin.isDestroyed() && secondWin.isVisible()) {
                 secondWin.hide();
             }
         } else {
             win.show();
-            if (secondWin) {
+            if (secondWin && !secondWin.isDestroyed()) {
                 secondWin.show();
             }
+            win.focus(); // Focus the win window
         }
     });
 

@@ -44,13 +44,19 @@ function updateFontSize() {
 }
 
 function toggleTextColor() {
+    console.log("toggleTextColor called"); // Debug log
     const teleprompter = document.querySelector(".teleprompter");
+    console.log("teleprompter: ", teleprompter); // Debug log
+    console.log("isBlack: ", isBlack); // Debug log
     if (teleprompter) {
-        if (isBlack) {
-            teleprompter.style.color = "rgb(255, 255, 255)"; // Change to white
-        } else {
-            teleprompter.style.color = "rgb(139, 0, 0)"; // Change to darker red
-        }
+        const paragraphs = teleprompter.querySelectorAll("p");
+        paragraphs.forEach((p) => {
+            if (isBlack) {
+                p.style.color = "rgb(255, 255, 255)"; // Change to white
+            } else {
+                p.style.color = "rgb(0, 0, 139)"; // Change to darker red
+            }
+        });
         isBlack = !isBlack;
     }
 }
