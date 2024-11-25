@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Tray, Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, ipcMain, Tray, Menu, globalShortcut } = require('electron');
 const path = require('path');
 const { createMainWindow, createSecondWindow, getMainWindow, getSecondWindow } = require('./windows');
 const Microphone = require('node-microphone');
@@ -42,23 +42,24 @@ app.whenReady().then(() => {
             }
         },
         {
+            label: 'Transcribe Audio',
+            click: async () => {
+                try {
+                    const transcription = await query('output.wav');
+                    console.log(transcription);
+                    win.webContents.send('transcription-result', transcription);
+                } catch (error) {
+                    console.error('Error transcribing audio:', error);
+                }
+            }
+        },
+        {
             label: 'Quit',
             click: () => {
                 app.isQuiting = true;
                 app.quit();
             }
         },
-        {
-            label: 'Transcribe Audio',
-            click: async () => {
-                try {
-                    const transcription = await query('output.wav');
-                    console.log(transcription);
-                } catch (error) {
-                    console.error('Error transcribing audio:', error);
-                }
-            }
-        }
     ]);
 
     async function query(filename) {

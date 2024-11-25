@@ -1,6 +1,13 @@
+const { ipcRenderer } = require('electron');
+
 let currentTeleprompter = "index.html";
 let fontSize = 24; // Initial font size in pixels
 let isBlack = false; // Initial text color state
+
+ipcRenderer.on('transcription-result', (event, transcription) => {
+    const transcriptionDiv = document.getElementById('transcription-result');
+    transcriptionDiv.textContent = transcription.text; // Assuming the transcription text is in the 'text' property
+});
 
 const teleprompters = [
     "index.html",
