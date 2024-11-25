@@ -3,11 +3,14 @@ const { ipcRenderer } = require('electron');
 let currentTeleprompter = "index.html";
 let fontSize = 24; // Initial font size in pixels
 let isBlack = false; // Initial text color state
+let transcriptions = []; // Array to store all transcriptions
 
 ipcRenderer.on('transcription-result', (event, transcription) => {
+    transcriptions.push(transcription.text); // Add new transcription to the array
     const transcriptionDiv = document.getElementById('transcription-result');
-    transcriptionDiv.textContent = transcription.text; // Assuming the transcription text is in the 'text' property
+    transcriptionDiv.innerHTML = transcriptions.join('<br>'); // Display all transcriptions
 });
+
 
 const teleprompters = [
     "index.html",
