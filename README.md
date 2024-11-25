@@ -77,5 +77,5 @@ npm run package
 
 ## Future Path Notes
 
-1.11 To transcribe in real time
+1.11 To display the transcription in a page
 1.10 Add model to read wav file
