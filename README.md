@@ -78,6 +78,6 @@ npm run package
 
 ## Future Path Notes
 
-1.12 Thinking...
+1.12 Add a screenshot or gif on README
 1.11 To display the transcription in a page
 1.10 Add model to read wav file
